@@ -41,9 +41,21 @@ repositories {
 
 
 dependencies {
+	// Spring Dependencies
 	compile('org.springframework.boot:spring-boot-starter')
 	compile("org.springframework.boot:spring-boot-starter-web")
+
+	// Kotlin Dependencies
 	compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	compile("org.jetbrains.kotlin:kotlin-reflect")
+
+	// Jackson Dependencies
+	compile "com.fasterxml.jackson.core:jackson-annotations"
+	compile "com.fasterxml.jackson.core:jackson-core"
+	compile "com.fasterxml.jackson.core:jackson-databind"
+	runtime "com.fasterxml.jackson.datatype:jackson-datatype-jdk8"
+	runtime "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+	runtime "com.fasterxml.jackson.module:jackson-module-kotlin"
+
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
