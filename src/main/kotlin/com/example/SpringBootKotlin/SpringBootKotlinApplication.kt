@@ -7,11 +7,11 @@ import org.springframework.context.annotation.Bean
 
 
 @SpringBootApplication
-class SpringBootKotlinApplication {
+open class SpringBootKotlinApplication {
     @Bean
-    fun controller() = AppController()
-
+    open fun controller() = AppController()
 }
+
 fun main(args: Array<String>) {
     runApplication<SpringBootKotlinApplication>(*args)
 }
