@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController
 class YelpService {
 
     @RequestMapping("/yelpIndex")
-    fun index() = "Processing " + this.javaClass.simpleName
+    fun index() = "Processing " + this.javaClass.simpleName + "..."
 
 
     fun getYelpRqData(rqInput: Yelp) : Yelp {
