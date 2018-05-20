@@ -1,15 +1,19 @@
 package com.example.SpringBootKotlin
 
 import controller.AppController
+import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 
+
 @SpringBootApplication
-class SpringBootKotlinApplication {
+open class SpringBootKotlinApplication {
+
     @Bean
-    fun controller() = AppController()
+    open fun controller() = AppController()
 }
+
 fun main(args: Array<String>) {
     runApplication<SpringBootKotlinApplication>(*args)
 }

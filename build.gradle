@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		kotlinVersion = '1.2.40'
+		kotlinVersion = '1.2.41'
 		springBootVersion = '2.0.2.RELEASE'
 	}
 	repositories {
@@ -35,6 +35,10 @@ compileTestKotlin {
 	}
 }
 
+test {
+	useJUnitPlatform()
+}
+
 repositories {
 	mavenCentral()
 }
@@ -44,6 +48,7 @@ dependencies {
 	// Spring Dependencies
 	compile('org.springframework.boot:spring-boot-starter')
 	compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-web")
 
 	// Kotlin Dependencies
 	compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -57,5 +62,13 @@ dependencies {
 	runtime "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
 	runtime "com.fasterxml.jackson.module:jackson-module-kotlin"
 
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+	// OAUTH2 Dependencies
+	compile("org.springframework.security.oauth:spring-security-oauth2:2.3.4.BUILD-SNAPSHOT")
+
+	testCompile('org.springframework.boot:spring-boot-starter-test') {
+		exclude module: 'junit'
+	}
+
+	testImplementation('org.junit.jupiter:junit-jupiter-api')
+	testRuntimeOnly('org.junit.juptier:junit-jupiter-engine')
 }
