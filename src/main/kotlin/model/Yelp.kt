@@ -8,5 +8,5 @@ data class Yelp(
         val searchTerm: String,
         val price: String = ""
 ) {
-    override fun toString(): String = "Request { location='${this.location}', searchTerm=${this.searchTerm}, price=${this.price}}"
+    override fun toString(): String = "Yelp { location='${this.location}', searchTerm=${this.searchTerm}, price=${this.price}}"
 }
