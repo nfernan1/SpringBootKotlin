@@ -45,7 +45,7 @@ class YelpService {
         addHeaderElement("Authorization", bearerToken)
 }
 
-    fun search(rqInput: Yelp): String? {
+    fun searchURI(rqInput: Yelp): String? {
         addHeaderElement("Authorization", "Bearer ${authToken}")
         val uri = API_HOST + SEARCH_PATH
         val builder = UriComponentsBuilder.fromUriString(uri)
