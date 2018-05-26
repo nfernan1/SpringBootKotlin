@@ -43,7 +43,7 @@ class AppController {
     }
 
     @RequestMapping("/yelp", consumes = [(MediaType.APPLICATION_JSON_VALUE)], method = [(RequestMethod.POST)])
-    fun postYelpRs(@RequestBody input: Yelp) : ResponseEntity<JsonNode>? {
+    fun postYelpRs(@RequestBody input: Yelp){
         val yelpController = YelpService()
         log.info(yelpController.index())
         val requestData = yelpController.getYelpRqData(input)
@@ -51,7 +51,7 @@ class AppController {
         val restTemplate = RestTemplate()
         //val response = restTemplate.getForObject(yelpController.searchURI(requestData), Yelp::class.java)
         val responseEntity = yelpController.addHeaderElement( "Authorization", "Bearer ${yelpController.authToken}")
-        return restTemplate.exchange(yelpController.searchURI(requestData), HttpMethod.GET, responseEntity, JsonNode::class.java)
+        return restTemplate.exchange(yelpController.searchURI(requestData), HttpMethod.GET, responseEntity, DTOYelp::class.java)
        // log.info(response.toString())
         //return response
     }
