@@ -4,8 +4,10 @@ import com.example.SpringBootKotlin.SpringBootKotlinApplication
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.type.TypeFactory
 import model.Comment
 import model.DTOYelp
+import model.RestaurantInfo
 import model.Yelp
 import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
@@ -58,15 +60,16 @@ class AppController {
     }
 
     @RequestMapping("/yelp", consumes = [(MediaType.APPLICATION_JSON_VALUE)], method = [(RequestMethod.POST)])
-    fun postYelpRs(@RequestBody input: Yelp): DTOYelp? {
+    fun postYelpRs(@RequestBody input: Yelp): List<RestaurantInfo>? {
         val yelpController = YelpService()
         log.info(yelpController.index())
         val requestData = yelpController.getYelpRqData(input)
 
         val restTemplate = RestTemplate()
         val responseEntity = yelpController.addHeaderElement( "Authorization", "Bearer ${yelpController.authToken}")
-        val json = restTemplate.exchange(yelpController.searchURI(requestData), HttpMethod.GET, responseEntity, DTOYelp()::class.java)
-        val jsonBody = json.body
-        return jsonBody
+        val jsonString = restTemplate.exchange(yelpController.searchURI(requestData), HttpMethod.GET, responseEntity, ArrayList<String>()::class.java)
+        val mapper = ObjectMapper()
+        val list: List<RestaurantInfo> = mapper.readValue(jsonString.body.toString(), TypeFactory.defaultInstance().constructCollectionType(List::class.java, RestaurantInfo::class.java))
+        return list
     }
 }
