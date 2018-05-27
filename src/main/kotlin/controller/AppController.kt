@@ -1,7 +1,9 @@
 package controller
 
 import com.example.SpringBootKotlin.SpringBootKotlinApplication
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
 import model.Comment
 import model.DTOYelp
 import model.Yelp
@@ -42,17 +44,29 @@ class AppController {
         return yelpController.getYelpRqData(input)
     }
 
-    @RequestMapping("/yelp", consumes = [(MediaType.APPLICATION_JSON_VALUE)], method = [(RequestMethod.POST)])
-    fun postYelpRs(@RequestBody input: Yelp){
+    @RequestMapping("/yelp/jsonRs", consumes = [(MediaType.APPLICATION_JSON_VALUE)], method = [(RequestMethod.POST)])
+    fun postYelpJsonRs(@RequestBody input: Yelp): JsonNode? {
         val yelpController = YelpService()
         log.info(yelpController.index())
         val requestData = yelpController.getYelpRqData(input)
 
         val restTemplate = RestTemplate()
-        //val response = restTemplate.getForObject(yelpController.searchURI(requestData), Yelp::class.java)
         val responseEntity = yelpController.addHeaderElement( "Authorization", "Bearer ${yelpController.authToken}")
-        return restTemplate.exchange(yelpController.searchURI(requestData), HttpMethod.GET, responseEntity, DTOYelp::class.java)
-       // log.info(response.toString())
-        //return response
+        val json = restTemplate.exchange(yelpController.searchURI(requestData), HttpMethod.GET, responseEntity, String::class.java)
+        val mapper = ObjectMapper()
+        return  mapper.readTree(json.body)
+    }
+
+    @RequestMapping("/yelp", consumes = [(MediaType.APPLICATION_JSON_VALUE)], method = [(RequestMethod.POST)])
+    fun postYelpRs(@RequestBody input: Yelp): DTOYelp? {
+        val yelpController = YelpService()
+        log.info(yelpController.index())
+        val requestData = yelpController.getYelpRqData(input)
+
+        val restTemplate = RestTemplate()
+        val responseEntity = yelpController.addHeaderElement( "Authorization", "Bearer ${yelpController.authToken}")
+        val json = restTemplate.exchange(yelpController.searchURI(requestData), HttpMethod.GET, responseEntity, DTOYelp()::class.java)
+        val jsonBody = json.body
+        return jsonBody
     }
 }

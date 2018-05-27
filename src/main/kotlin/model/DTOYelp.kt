@@ -1,10 +1,13 @@
 package model
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.*
+import com.fasterxml.jackson.databind.JsonNode
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class DTOYelp {
-    val total: Int = 0
-    var businesses = ArrayList<String>()
+
+    @JsonProperty("businesses")
+    var businesses = ArrayList<JsonNode>()
+
     override fun toString(): String = "Yelp { businesses='${this.businesses}'}"
 }
