@@ -8,4 +8,6 @@ class RestaurantInfo {
     val url: String = ""
     val rating: String = ""
     val price: String = ""
+
+    override fun toString(): String = "RestaurantInfo { name='${this.name}', url='${this.url}' }"
 }
