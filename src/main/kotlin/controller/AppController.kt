@@ -1,25 +1,18 @@
 package controller
 
 import com.example.SpringBootKotlin.SpringBootKotlinApplication
-import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.type.TypeFactory
 import model.Comment
 import model.DTOYelp
-import model.RestaurantInfo
 import model.Yelp
 import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
-import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.client.RestTemplate
 import service.YelpService
 import java.time.Instant
-import org.apache.tomcat.jni.User.username
-import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
-import org.springframework.http.ResponseEntity
 
 
 @RestController
@@ -60,13 +53,14 @@ class AppController {
     }
 
     @RequestMapping("/yelp", consumes = [(MediaType.APPLICATION_JSON_VALUE)], method = [(RequestMethod.POST)])
-    fun postYelpRs(@RequestBody input: Yelp): ResponseEntity<out DTOYelp>? {
+    fun postYelpRs(@RequestBody input: Yelp): DTOYelp? {
         val yelpController = YelpService()
         log.info(yelpController.index())
         val requestData = yelpController.getYelpRqData(input)
 
         val restTemplate = RestTemplate()
         val responseEntity = yelpController.addHeaderElement( "Authorization", "Bearer ${yelpController.authToken}")
-        return restTemplate.exchange(yelpController.searchURI(requestData), HttpMethod.GET, responseEntity, DTOYelp()::class.java)
+        val response = restTemplate.exchange(yelpController.searchURI(requestData), HttpMethod.GET, responseEntity, DTOYelp()::class.java)
+        return response.body
     }
 }
