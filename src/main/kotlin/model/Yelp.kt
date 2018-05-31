@@ -6,7 +6,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 data class Yelp(
         val location: String,
         val searchTerm: String,
-        val price: String = ""
+        val price: String = "",
+        val sortBy: String = "rating",
+        val openNow: String = "",
+        val openAt: String = ""
 ) {
-    override fun toString(): String = "Yelp { location='${this.location}', searchTerm=${this.searchTerm}, price=${this.price}}"
+    override fun toString(): String = "Yelp { location='$location', searchTerm=$searchTerm, " +
+            "price=$price, sort_By=$sortBy, open_now=$openNow, open_at=$openAt}"
 }
