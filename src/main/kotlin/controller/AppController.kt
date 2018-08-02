@@ -6,11 +6,10 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import model.DTOYelp
 import model.Yelp
 import org.slf4j.LoggerFactory
-import org.springframework.http.MediaType
+import org.springframework.http.*
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.client.RestTemplate
 import service.YelpService
-import org.springframework.http.HttpMethod
 
 
 @RestController
@@ -34,7 +33,9 @@ class AppController {
         val requestData = yelpController.getYelpRqData(input)
 
         val restTemplate = RestTemplate()
-        val responseEntity = yelpController.addHeaderElement( "Authorization", "Bearer ${yelpController.authToken}")
+        val headers = HttpHeaders()
+        yelpController.addHeaderElement( headers,"Authorization", "Bearer ${yelpController.authToken}")
+        val responseEntity = ResponseEntity<String>(headers, HttpStatus.OK)
         val json = restTemplate.exchange(yelpController.searchURI(requestData), HttpMethod.GET, responseEntity, String::class.java)
         val mapper = ObjectMapper()
         return  mapper.readTree(json.body)
@@ -47,7 +48,11 @@ class AppController {
         val requestData = yelpController.getYelpRqData(input)
 
         val restTemplate = RestTemplate()
-        val responseEntity = yelpController.addHeaderElement( "Authorization", "Bearer ${yelpController.authToken}")
+
+        val headers = HttpHeaders()
+        yelpController.addHeaderElement( headers,"Authorization", "Bearer ${yelpController.authToken}")
+        val responseEntity = ResponseEntity<String>(headers, HttpStatus.OK)
+
         val response = restTemplate.exchange(yelpController.searchURI(requestData), HttpMethod.GET, responseEntity, DTOYelp()::class.java)
         return response.body
     }

@@ -33,11 +33,9 @@ class YelpService {
         return Yelp(location, searchTerm, price, sortBy, openNow, openAt)
     }
 
-    fun addHeaderElement(headerName: String, headerVal: String): ResponseEntity<String> {
-        val headers = HttpHeaders()
+    fun addHeaderElement(headers: HttpHeaders, headerName: String, headerVal: String) {
         headers.add(headerName, headerVal)
         log.info(headers.toString())
-        return ResponseEntity<String>(headers, HttpStatus.OK)
     }
 
     fun searchURI(rqInput: Yelp): String? {

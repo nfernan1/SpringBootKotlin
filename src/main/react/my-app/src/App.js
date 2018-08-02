@@ -4,17 +4,20 @@ import './App.css';
 import Form from './component/Form.js'
 
 class App extends Component {
-
-    state = {
-        fields: {}
-    };
+    constructor(props) {
+        super(props);
+        this.createYelp = this.createYelp.bind(this);
+        this.state = {
+            fields: {}
+        };
+    }
 
     onSubmit = fields => {
         this.setState({fields});
     }
 
     createYelp(yelp) {
-        fetch('http://localhost:8080/yelp', {
+        fetch('/yelp', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -23,6 +26,8 @@ class App extends Component {
 
         })
             .catch(err => console.error(err))
+
+        console.log(JSON.stringify(yelp))
     }
 
     render() {

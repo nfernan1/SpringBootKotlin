@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 class Form extends Component {
+
     state = {
         location: "",
         searchTerm: "",
@@ -11,7 +12,6 @@ class Form extends Component {
     }
 
     change = e => {
-        console.log("NAME: " + e.target.name + " VALUE: " + e.target.value);
         this.setState({
             [e.target.name]: e.target.value
         });
@@ -29,6 +29,7 @@ class Form extends Component {
     }
 
     onSubmit = (e) => {
+        console.log("NAME: " + e.target.name + " VALUE: " + e.target.value);
         e.preventDefault();
         var newYelp = this.state;
         this.props.createYelp(newYelp);
