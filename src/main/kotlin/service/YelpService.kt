@@ -27,31 +27,26 @@ class YelpService {
         val location = rqInput.location
         val searchTerm = rqInput.searchTerm
         val price = rqInput.price
-        val yelpRqInput = Yelp(location, searchTerm, price)
-        return yelpRqInput
+        val sortBy = rqInput.sortBy
+        val openNow = rqInput.openNow
+        val openAt = rqInput.openAt
+        return Yelp(location, searchTerm, price, sortBy, openNow, openAt)
     }
 
-    fun addHeaderElement(headerName: String, headerVal: String): ResponseEntity<String> {
-
-        val headers = HttpHeaders()
+    fun addHeaderElement(headers: HttpHeaders, headerName: String, headerVal: String) {
         headers.add(headerName, headerVal)
         log.info(headers.toString())
-        return ResponseEntity<String>(headers, HttpStatus.OK)
     }
 
-    fun request(host: String, path: String, auth: String) {
-
-        val bearerToken = "Bearer " + auth
-        addHeaderElement("Authorization", bearerToken)
-}
-
     fun searchURI(rqInput: Yelp): String? {
-        addHeaderElement("Authorization", "Bearer ${authToken}")
         val uri = API_HOST + SEARCH_PATH
         val builder = UriComponentsBuilder.fromUriString(uri)
                 .queryParam("location", rqInput.location)
                 .queryParam("term", rqInput.searchTerm)
                 .queryParam("price", rqInput.price)
+                .queryParam("sortBy", rqInput.sortBy)
+                .queryParam("openNow", rqInput.openNow)
+                .queryParam("openAt", rqInput.openAt)
         return builder.toUriString()
     }
 
